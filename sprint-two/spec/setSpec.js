@@ -15,6 +15,7 @@ describe('set', function() {
     set.add('Susan Sarandon');
     set.add('Danny Glover');
     expect(set.contains('Danny Glover')).to.equal(true);
+    expect(set._storage.length).to.equal(2);
     expect(set.contains('Susan Sarandon')).to.equal(true);
   });
 
