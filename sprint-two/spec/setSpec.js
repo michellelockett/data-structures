@@ -25,4 +25,10 @@ describe('set', function() {
     expect(set.contains('Mel Gibson')).to.equal(false);
   });
 
+  it('should only contain one node with the same value', function() {
+    set.add(5);
+    set.add(5);
+    expect(set._storage.length).to.equal(1);
+  });
+
 });

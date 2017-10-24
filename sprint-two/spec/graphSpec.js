@@ -20,7 +20,7 @@ describe('graph', function() {
     expect(graph.contains(1)).to.equal(true);
   });
 
-  it('should remove nodes that were inserted', function() {
+  it('should remove nodes that were removed', function() {
     graph.addNode(2);
     expect(graph.contains(2)).to.equal(true);
     graph.removeNode(2);
@@ -32,7 +32,9 @@ describe('graph', function() {
     graph.addNode(1);
     graph.addNode(3);
     graph.addEdge(3, 2);
+    graph.addEdge(24, 5);
     expect(graph.hasEdge(3, 2)).to.equal(true);
+    expect(graph.hasEdge(2, 3)).to.equal(true);
     expect(graph.hasEdge(3, 1)).to.equal(false);
   });
 
@@ -67,5 +69,14 @@ describe('graph', function() {
     expect(graph.hasEdge(1, 5)).to.equal(true);
     expect(graph.hasEdge(3, 5)).to.equal(true);
     expect(graph.hasEdge(5, 5)).to.equal(true);
+  });
+
+  it('should not have an edge between nodes that are tangentially linked', function() {
+    graph.addNode(1);
+    graph.addNode(2);
+    graph.addNode(3);
+    graph.addEdge(1, 2);
+    graph.addEdge(2, 3);
+    expect(graph.hasEdge(1, 3)).to.equal(false);
   });
 });

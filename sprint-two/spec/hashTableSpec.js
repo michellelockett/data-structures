@@ -31,6 +31,9 @@ describe('hashTable', function() {
 
   it('should not contain values that were removed', function() {
     hashTable.insert('Steven', 'Tyler');
+    hashTable.insert('Spencer', 'Cornelia');
+    hashTable.insert('Michelle', 'Lockett');
+    hashTable.insert('A', 'Test');
     hashTable.remove('Steven');
     expect(hashTable.retrieve('Steven')).to.equal(undefined);
   });
@@ -42,9 +45,20 @@ describe('hashTable', function() {
     window.getIndexBelowMaxForKey = function() { return 0; };
     hashTable.insert(v1, v1);
     hashTable.insert(v2, v2);
+    // this is expecting v1 to equal 'val1'
     expect(hashTable.retrieve(v1)).to.equal(v1);
     expect(hashTable.retrieve(v2)).to.equal(v2);
     window.getIndexBelowMaxForKey = oldHashFunction;
+  });
+
+  it('should handle adding a string with a value that has already been removed', function() {
+    hashTable.insert("Spencer", "Cornelia");
+    hashTable.insert("Michelle", "Lockett");
+    expect(hashTable.retrieve("Spencer")).to.equal("Cornelia");
+    hashTable.remove("Spencer");
+    expect(hashTable.retrieve("Spencer")).to.equal(undefined);
+    hashTable.insert("Spencer", "Cornelia");
+    expect(hashTable.retrieve("Spencer")).to.equal("Cornelia");
   });
 
   // (Advanced! Remove the extra "x" when you want the following tests to run)
