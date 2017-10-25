@@ -1,6 +1,6 @@
 var Set = function() {
   var set = Object.create(setPrototype);
-  set._storage = [];
+  set._table = new HashTable();
   return set;
 };
 
@@ -8,19 +8,24 @@ var setPrototype = {};
 
 // time complexity: linear
 setPrototype.add = function(item) {
-  if (!this._storage.includes(item)) {
-    this._storage.push(item);
+  var itemToString = item.toString();
+  var index = getIndexBelowMaxForKey(itemToString, this._table._limit);
+  if (!this._table._storage.get(index)) {
+    this._table.insert(itemToString, itemToString);
   }
 };
 
 // time complexity: linear
 setPrototype.contains = function(item) {
-  return this._storage.includes(item);
+  var itemToString = item.toString();
+  var index = getIndexBelowMaxForKey(itemToString, this._table._limit);
+  return this._table.retrieve(itemToString) ? true : false;
 };
 
 // time complexity: linear
 setPrototype.remove = function(item) {
-  this._storage.splice(this._storage.indexOf(item), 1);
+  var itemToString = item.toString();
+  this._table.remove(itemToString);
 };
 
 /*

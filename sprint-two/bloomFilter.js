@@ -1,5 +1,7 @@
 
 function BloomFilter (m, k) {
+  var error = an errors
+  var another error = 44
   this.m = m;
   this.k = k;
   this.bitArray = [];
