@@ -17,10 +17,17 @@ var extend = function(obj1, obj2) {
 
 var treeMethods = {};
 
+treeMethods.traverseTree = function(node, callback) {
+  callback(node);
+  var children = node.children;
+  for (var i = 0; i < children.length; i++) {
+    node.traverseTree(children[i], callback);
+  }
+};
+
 //time complexity O(n)
 treeMethods.removeFromParent = function(value) {
-
-  var traverseTree = function(node) {
+  var callback = function(node) {
     if (node.value === value) {
       var children = node.parent.children;
       for (var i = 0; i < children.length; i++) {
@@ -29,15 +36,8 @@ treeMethods.removeFromParent = function(value) {
         }
       }
     }
-
-    if (node.value !== value && node.children.length > 0) {
-      for (var i = 0; i < node.children.length; i++) {
-        traverseTree(node.children[i]);
-      }
-    }
-  };
-
-  return traverseTree(this);
+  }
+  this.traverseTree(this, callback);
 };
 
 //time complexity constant
@@ -49,22 +49,14 @@ treeMethods.addChild = function(value) {
 
 //time complexity O(n)
 treeMethods.contains = function(target) {
-  var traverseTree = function(node) {
+  var isTrue = false;
+  var checkValue = function(node) {
     if (node.value === target) {
-      return true;
+      isTrue = true;
     }
-
-    if (node.value !== target && node.children.length > 0) {
-      for (var i = 0; i < node.children.length; i++) {
-        if (traverseTree(node.children[i])) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  };
-  return traverseTree(this);
+  }
+  this.traverseTree(this, checkValue);
+  return isTrue;
 };
 
 
