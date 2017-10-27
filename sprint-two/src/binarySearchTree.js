@@ -43,6 +43,8 @@ newTreeMethods.insert = function(value) {
       this.right.insert(value);
     }
   }
+
+  this.checkDepth();
   // if (this.balance === 'a') {
   //   this.checkDepth();
   // }
@@ -107,10 +109,10 @@ newTreeMethods.checkDepth = function() {
   this.depthFirstLog(checkMax, this);
   this.depthFirstLog(checkMin, this);
 
-  //tbe condition under which we need to rebalance the tree
+  //the condition under which we need to rebalance the tree
   var doubleMin = depth.min * 2;
   if (depth.max > doubleMin && depth.min !== 0) {
-    //this = this.rebalance();
+    this.rebalance();
   }
 
   return depth;
@@ -157,20 +159,6 @@ newTreeMethods.rebalance = function(tree) {
 
   //always recursively grabs the middle value of each array for optimal
   //balance in insertion
-  // var recursiveRebalance = function(array) {
-  //   //base case left or right array is length 1
-  //   if (array.length === 1) {
-  //     newTree.insert(array[0]);
-  //     return;
-  //   } else {
-  //     var newArray = middleOfArray(array);
-  //     if (newTree.value !== newArray.value) {
-  //       newTree.insert(newArray.value);
-  //     }
-  //     recursiveRebalance(newArray.right);
-  //     recursiveRebalance(newArray.left);
-  //   }
-  // };
 
   var recursiveRebalance = function(array) {
     //base case left or right array is length 1
