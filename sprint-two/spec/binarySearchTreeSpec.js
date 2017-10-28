@@ -108,19 +108,19 @@ describe('binarySearchTree', function() {
     expect(valuesAfter[Math.floor(valuesAfter.length / 2)]).to.equal(binarySearchTree.value);
   });
 
-  // it ('should confirm BinarySearchTree has a breadthFirstLog method', function() {
-  //   expect(binarySearchTree.breadthFirstLog).to.be.a('function');
-  // });
+  it ('should confirm BinarySearchTree has a breadthFirstLog method', function() {
+    expect(binarySearchTree.breadthFirstLog).to.be.a('function');
+  });
 
-  // it ('should call a callback function on each node using breadth first logging', function() {
-  //   var array = [];
-  //   var func = function(tree) { array.push(tree.value); };
-  //   binarySearchTree.insert(3);
-  //   binarySearchTree.insert(2);
-  //   binarySearchTree.insert(7);
-  //   binarySearchTree.insert(4);
-  //   binarySearchTree.insert(1);
-  //   binarySearchTree.breadthFirstLog(func, binarySearchTree);
-  //   expect(array).to.eql([]);
-  // });
+  it ('should call a callback function on each node using breadth first logging', function() {
+    var array = [];
+    var func = function(tree) { array.push(tree.value); };
+    binarySearchTree.insert(3);
+    binarySearchTree.insert(2);
+    binarySearchTree.insert(7);
+    binarySearchTree.insert(4);
+    binarySearchTree.insert(1);
+    binarySearchTree.breadthFirstLog(func, binarySearchTree);
+    expect(array).to.eql([5, 3, 7, 2, 4, 1]);
+  });
 });

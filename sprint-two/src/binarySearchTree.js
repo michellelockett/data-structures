@@ -43,10 +43,10 @@ newTreeMethods.insert = function(value, check) {
     }
   }
 
-    //need to call checkDepth ONLY AFTER recursion has completed
-    if (check) {
-      this.checkDepth();
-    }
+  //need to call checkDepth ONLY AFTER recursion has completed
+  if (check) {
+    this.checkDepth();
+  }
 };
 
 newTreeMethods.remove = function() {
@@ -54,7 +54,7 @@ newTreeMethods.remove = function() {
   this.right = null;
   this.value = null;
   this.parent = null;
-}
+};
 
 //time complexity O(logn)
 newTreeMethods.contains = function(value) {
@@ -88,24 +88,21 @@ newTreeMethods.depthFirstLog = function(callback, tree) {
   }
 };
 
-// newTreeMethods.breadthFirstLog = function(callback, tree) {
-//   callback(tree);
+newTreeMethods.breadthFirstLog = function(callback, tree) {
+  var values = [];
+  values.push(tree);
 
-//   var values = [];
-//   // values = [8, 5, 12];
-//   //call callback on 8
-//   //values = [5, 12]
-//   //check level 1's children
-//   //values = [5, 12, 10]
-//   //call callback on 5
-//   if (tree.left !== null) {
-//     values.push(tree.left.value);
-//   }
-//   if (tree.right !== null) {
-//     values.push(tree.right.value);
-//   }
-
-// }
+  while (values.length > 0) {
+    var firstNode = values.shift();
+    if (firstNode.left) {
+      values.push(firstNode.left);
+    }
+    if (firstNode.right) {
+      values.push(firstNode.right);
+    }
+    callback(firstNode);
+  }
+};
 
 newTreeMethods.checkDepth = function() {
   //a way to track the max an min depth of the tree at the time this function is called
@@ -137,7 +134,6 @@ newTreeMethods.checkDepth = function() {
   //tbe condition under which we need to rebalance the tree
   var doubleMin = depth.min * 2;
   if (depth.max > doubleMin && depth.min !== 0) {
-    console.log(this, "we are about to rebalance the tree");
     this.rebalance(this);
   }
   return depth;
