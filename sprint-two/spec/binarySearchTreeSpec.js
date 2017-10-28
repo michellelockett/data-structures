@@ -82,28 +82,45 @@ describe('binarySearchTree', function() {
   });
 
   it('should rebalance a tree when maximum depth is twice minimum depth', function() {
+    var valuesBefore = [];
+    var before = function(tree) {
+      valuesBefore.push(tree.value);
+    };
+    var valuesAfter = [];
+    var after = function(tree) {
+      valuesAfter.push(tree.value);
+    };
+
     binarySearchTree = BinarySearchTree(50);
-    binarySearchTree.insert(20);
-    binarySearchTree.insert(10);
-    binarySearchTree.insert(30);
-    binarySearchTree.insert(40);
-    binarySearchTree.insert(70);
-    binarySearchTree.insert(2);
-    binarySearchTree.insert(8);
-    binarySearchTree.insert(81);
-    binarySearchTree.insert(99);
-    binarySearchTree.insert(71);
-    binarySearchTree.insert(75);
-    binarySearchTree.insert(76);
-    binarySearchTree.insert(77);
-    binarySearchTree.insert(78);
-    binarySearchTree.insert(79);
+    binarySearchTree.insert(20, true);
+    binarySearchTree.insert(10, true);
+    binarySearchTree.insert(30, true);
+    binarySearchTree.insert(70, true);
     var firstDepth = binarySearchTree.checkDepth();
-    expect(firstDepth.max).to.equal(8);
-    expect(firstDepth.min).to.equal(3);
-    var someTree = binarySearchTree.rebalance(this);
-    var depth = someTree.checkDepth();
-    expect(depth.max).to.equal(4);
-    expect(depth.min).to.equal(3);
+    expect(firstDepth.max).to.equal(2);
+    expect(firstDepth.min).to.equal(1);
+    binarySearchTree.depthFirstLog(before, binarySearchTree);
+    binarySearchTree.insert(40, true);
+    binarySearchTree.depthFirstLog(after, binarySearchTree);
+    valuesAfter.sort(function(a, b) {
+      return a - b;
+    });
+    expect(valuesAfter[Math.floor(valuesAfter.length / 2)]).to.equal(binarySearchTree.value);
   });
+
+  // it ('should confirm BinarySearchTree has a breadthFirstLog method', function() {
+  //   expect(binarySearchTree.breadthFirstLog).to.be.a('function');
+  // });
+
+  // it ('should call a callback function on each node using breadth first logging', function() {
+  //   var array = [];
+  //   var func = function(tree) { array.push(tree.value); };
+  //   binarySearchTree.insert(3);
+  //   binarySearchTree.insert(2);
+  //   binarySearchTree.insert(7);
+  //   binarySearchTree.insert(4);
+  //   binarySearchTree.insert(1);
+  //   binarySearchTree.breadthFirstLog(func, binarySearchTree);
+  //   expect(array).to.eql([]);
+  // });
 });

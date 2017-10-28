@@ -9,7 +9,6 @@ var BinarySearchTree = function(value) {
   newTree.left = null;
   newTree.parent = null;
   newTree.depth = 0;
-  newTree.balance = 'a';
 
   // deal with balance
   return newTree;
@@ -24,7 +23,7 @@ var extend = function(obj1, obj2) {
 };
 
 //time complexity O(logn)
-newTreeMethods.insert = function(value) {
+newTreeMethods.insert = function(value, check) {
   var newTree = BinarySearchTree(value);
   if (value < this.value) {
     if (this.left === null) {
@@ -32,7 +31,7 @@ newTreeMethods.insert = function(value) {
       newTree.parent = this;
       newTree.depth = this.depth + 1;
     } else {
-      this.left.insert(value);
+      this.left.insert(value, false);
     }
   } else if (value > this.value) {
     if (this.right === null) {
@@ -40,15 +39,22 @@ newTreeMethods.insert = function(value) {
       newTree.parent = this;
       newTree.depth = this.depth + 1;
     } else {
-      this.right.insert(value);
+      this.right.insert(value, false);
     }
   }
 
-  this.checkDepth();
-  // if (this.balance === 'a') {
-  //   this.checkDepth();
-  // }
+    //need to call checkDepth ONLY AFTER recursion has completed
+    if (check) {
+      this.checkDepth();
+    }
 };
+
+newTreeMethods.remove = function() {
+  this.left = null;
+  this.right = null;
+  this.value = null;
+  this.parent = null;
+}
 
 //time complexity O(logn)
 newTreeMethods.contains = function(value) {
@@ -82,6 +88,25 @@ newTreeMethods.depthFirstLog = function(callback, tree) {
   }
 };
 
+// newTreeMethods.breadthFirstLog = function(callback, tree) {
+//   callback(tree);
+
+//   var values = [];
+//   // values = [8, 5, 12];
+//   //call callback on 8
+//   //values = [5, 12]
+//   //check level 1's children
+//   //values = [5, 12, 10]
+//   //call callback on 5
+//   if (tree.left !== null) {
+//     values.push(tree.left.value);
+//   }
+//   if (tree.right !== null) {
+//     values.push(tree.right.value);
+//   }
+
+// }
+
 newTreeMethods.checkDepth = function() {
   //a way to track the max an min depth of the tree at the time this function is called
   var depth = {
@@ -109,16 +134,14 @@ newTreeMethods.checkDepth = function() {
   this.depthFirstLog(checkMax, this);
   this.depthFirstLog(checkMin, this);
 
-  //the condition under which we need to rebalance the tree
+  //tbe condition under which we need to rebalance the tree
   var doubleMin = depth.min * 2;
   if (depth.max > doubleMin && depth.min !== 0) {
-    this.rebalance();
+    console.log(this, "we are about to rebalance the tree");
+    this.rebalance(this);
   }
-
   return depth;
 };
-
-
 
 var middleOfArray = function(array) {
   var middle = Math.floor(array.length / 2);
@@ -130,12 +153,6 @@ var middleOfArray = function(array) {
 };
 
 newTreeMethods.rebalance = function(tree) {
-  // var changeBalance = function(tree) {
-  //   tree.balance = 'b';
-  // };
-
-  // this.depthFirstLog(changeBalance, this);
-
   //an array to store the unbalanced tree's values
   var values = [];
 
@@ -150,25 +167,23 @@ newTreeMethods.rebalance = function(tree) {
     return a - b;
   });
 
-  //get the first object with a value, left array and right array
-  //that will become the root of our new rebalanced tree
+  // valuesObject provides an object with the new root node
+  // we grab the value from the object to set as the new root value
   var valuesObject = middleOfArray(values);
-
-  //creating our new root of the rebalanced tree
-  var newTree = BinarySearchTree(valuesObject.value);
+  this.remove();
+  this.value = valuesObject.value;
 
   //always recursively grabs the middle value of each array for optimal
   //balance in insertion
-
   var recursiveRebalance = function(array) {
     //base case left or right array is length 1
     if (array.length === 1) {
-      newTree.insert(array[0]);
+      tree.insert(array[0]);
       return;
     } else {
       var newArray = middleOfArray(array);
-      if (newTree.value !== newArray.value) {
-        newTree.insert(newArray.value);
+      if (tree.value !== newArray.value) {
+        tree.insert(newArray.value);
       }
       if (newArray.right.length > 0) {
         recursiveRebalance(newArray.right);
@@ -180,11 +195,7 @@ newTreeMethods.rebalance = function(tree) {
   };
 
   recursiveRebalance(values);
-
-  tree = newTree;
-  return tree;
 };
-
 
 
 /*
