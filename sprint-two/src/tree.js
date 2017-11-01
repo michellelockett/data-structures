@@ -36,7 +36,7 @@ treeMethods.removeFromParent = function(value) {
         }
       }
     }
-  }
+  };
   this.traverseTree(this, callback);
 };
 
@@ -54,7 +54,7 @@ treeMethods.contains = function(target) {
     if (node.value === target) {
       isTrue = true;
     }
-  }
+  };
   this.traverseTree(this, checkValue);
   return isTrue;
 };
