@@ -108,10 +108,8 @@ newTreeMethods.checkDepth = function() {
   //a way to track the max an min depth of the tree at the time this function is called
   var depth = {
     max: 0,
-    min: 0
+    min: null
   };
-
-  var localMin = 10000;
   //callback function to update the depth object
   var checkMax = function(tree) {
     if (tree.depth > depth.max) {
@@ -121,9 +119,10 @@ newTreeMethods.checkDepth = function() {
   //callback function to update the depth object
   var checkMin = function(tree) {
     if (tree.left === null && tree.right === null) {
-      if (tree.depth < localMin) {
+      if (depth.min === null) {
         depth.min = tree.depth;
-        localMin = tree.depth;
+      } else if (tree.depth < depth.min) {
+        depth.min = tree.depth;
       }
     }
   };
