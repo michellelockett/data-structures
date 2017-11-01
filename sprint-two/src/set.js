@@ -25,7 +25,7 @@ setPrototype.contains = function(item) {
 // time complexity: linear
 setPrototype.remove = function(item) {
   var itemToString = item.toString();
-  this._table.remove(itemToString);
+  this._table.remove(itemToString, "secondArgument");
 };
 
 /*
