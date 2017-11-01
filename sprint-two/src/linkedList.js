@@ -7,12 +7,9 @@ var LinkedList = function() {
   //time complexity constant
 
   list.addToTail = function(value) {
-    var newNode = new Node(value);
+    var newNode = Node(value);
     if (list.head === null) {
       list.head = newNode;
-      list.tail = newNode;
-    } else if (list.tail === null) {
-      list.head.next = newNode;
       list.tail = newNode;
     } else {
       list.tail.next = newNode;
