@@ -1,6 +1,6 @@
 describe('hashTable', function() {
   var hashTable;
-  var people = [['Steven', 'Tyler'], ['George', 'Harrison'], ['Mr.', 'Doob'], ['Dr.', 'Sunshine'], ['John', 'Resig'], ['Brendan', 'Eich'], ['Alan', 'Turing']];
+  var people = [['Steven', 'Tyler'], ['George', 'Harrison'], ['Mr.', 'Doob'], ['Dr.', 'Sunshine'], ['John', 'Resig'], ['Brendan', 'Eich'], ['Alan', 'Turing'], ['Spencer', 'Cornelia'], ['a', 'b'], ['c', 'd']];
 
 
   beforeEach(function() {
@@ -55,14 +55,14 @@ describe('hashTable', function() {
     hashTable.insert("Spencer", "Cornelia");
     hashTable.insert("Michelle", "Lockett");
     expect(hashTable.retrieve("Spencer")).to.equal("Cornelia");
-    hashTable.remove("Spencer");
+    (hashTable.remove("Spencer", 'NO'));
     expect(hashTable.retrieve("Spencer")).to.equal(undefined);
     hashTable.insert("Spencer", "Cornelia");
     expect(hashTable.retrieve("Spencer")).to.equal("Cornelia");
   });
 
-  // (Advanced! Remove the extra "x" when you want the following tests to run)
-  xit ('should double in size when needed', function() {
+  //(Advanced! Remove the extra "x" when you want the following tests to run)
+  it ('should double in size when needed', function() {
     _.each(people, function(person) {
       var firstName = person[0];
       var lastName = person[1];
@@ -72,7 +72,7 @@ describe('hashTable', function() {
     expect(hashTable._limit).to.equal(16);
   });
 
-  xit ('should halve in size when needed', function() {
+  it ('should halve in size when needed', function() {
     _.each(people, function(person) {
       var firstName = person[0];
       var lastName = person[1];
@@ -85,6 +85,8 @@ describe('hashTable', function() {
     hashTable.remove('Steven');
     hashTable.remove('John');
     hashTable.remove('Mr.');
+    hashTable.remove('Alan');
+    hashTable.remove('c');
     expect(hashTable._limit).to.equal(8);
   });
 });
